@@ -14,9 +14,9 @@ public class GetAllTasksUseCase
                 {
                     Id = Guid.NewGuid(),
                     Name = "Enxugar gelo",
-                    Priority = Communication.Enum.TaskPriorityType.high,
+                    Priority = Communication.Enum.TaskPriorityType.High,
                     DueDate = DateTime.Now.AddDays(1),
-                    Status = Communication.Enum.TaskStatusType.pending,
+                    Status = Communication.Enum.TaskStatusType.Pending,
                 }
             }
 

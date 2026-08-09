@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TaskManager.Application.UseCase.Task.Delete;
 using TaskManager.Application.UseCase.Task.GetAll;
+using TaskManager.Application.UseCase.Task.GetById;
 using TaskManager.Application.UseCase.Task.Register;
+using TaskManager.Application.UseCase.Task.Update;
 using TaskManager.Communication.Requests;
 using TaskManager.Communication.Response;
 
@@ -27,31 +30,46 @@ public class TaskController : ControllerBase
     public IActionResult GetAll()
     {
         var useCase = new GetAllTasksUseCase();
-        var respose = useCase.Execute();
+        var response = useCase.Execute();
 
-        if (respose.Tasks.Any()) return Ok();
+        if (response.Tasks.Any()) return Ok(response);
 
         return NoContent();
     }
 
     [HttpGet]
     [Route("{id}")]
-    public IActionResult Get(int id)
+    [ProducesResponseType(typeof(ResponseTask), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrors), StatusCodes.Status404NotFound)]
+    public IActionResult Get(Guid id)
     {
-        return Ok();
+        var useCase = new GetTaskByIdUseCase();
+        var response = useCase.Execute(id);
+
+        return Ok(response);
     }
 
     [HttpPut]
     [Route("{id}")]
-    public IActionResult Put(int id)
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ResponseErrors), StatusCodes.Status400BadRequest)]
+    public IActionResult Put(Guid id, [FromBody] RequestTask request)
     {
-        return NoContent();
+        var useCase = new UpdateTaskUseCase();
+        useCase.Execute(id, request);
+
+        return Ok();
     }
 
     [HttpDelete]
     [Route("{id}")]
-    public IActionResult Delete(int id)
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(typeof(ResponseErrors), StatusCodes.Status404NotFound)]
+    public IActionResult Delete(Guid id)
     {
+        var useCase = new DeleteTaskByIdUseCase();
+        useCase.Execute(id);
+
         return NoContent();
     }
 }
