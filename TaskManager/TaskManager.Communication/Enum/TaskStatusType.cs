@@ -2,7 +2,7 @@
 
 public enum TaskStatusType
 {
-    pending = 0,
-    inProgress = 1,
-    completed = 2,
+    Pending = 0,
+    InProgress = 1,
+    Completed = 2,
 }
