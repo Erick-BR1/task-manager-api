@@ -29,8 +29,29 @@ public class TaskController : ControllerBase
         var useCase = new GetAllTasksUseCase();
         var respose = useCase.Execute();
 
-        if(respose.Tasks.Any()) return Ok();
+        if (respose.Tasks.Any()) return Ok();
 
+        return NoContent();
+    }
+
+    [HttpGet]
+    [Route("{id}")]
+    public IActionResult Get(int id)
+    {
+        return Ok();
+    }
+
+    [HttpPut]
+    [Route("{id}")]
+    public IActionResult Put(int id)
+    {
+        return NoContent();
+    }
+
+    [HttpDelete]
+    [Route("{id}")]
+    public IActionResult Delete(int id)
+    {
         return NoContent();
     }
 }
